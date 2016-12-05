@@ -13,8 +13,8 @@
  pom {:project     project
       :version     version
       :description "Run Maven commands from Boot"
-      :url         "https://github.com/yourname/boot-mvn"
-      :scm         {:url "https://github.com/yourname/boot-mvn"}
+      :url         "https://github.com/big-solutions/boot-mvn"
+      :scm         {:url "https://github.com/big-solutions/boot-mvn"}
       :license     {"Eclipse Public License"
                     "http://www.eclipse.org/legal/epl-v10.html"}}
  push {:ensure-branch  "master"
