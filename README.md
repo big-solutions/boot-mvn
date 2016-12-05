@@ -4,7 +4,10 @@ A Boot task to run Maven commands.
 
 ## Usage
 
-To use this in your project, add `[big-solutions/boot-mvn "0.1.1"]` to your `:dependencies`
+To use this in your project:
+
+[![Clojars Project](https://img.shields.io/clojars/v/big-solutions/boot-mvn.svg)](https://clojars.org/big-solutions/boot-mvn)
+
 and then require the task:
 
     (require '[boot-mvn.core :refer [boot-mvn]])
