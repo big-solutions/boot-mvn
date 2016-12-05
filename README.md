@@ -11,7 +11,7 @@ and then require the task:
 
 Run the `boot-mvn` task:
 
-    $ boot boot-mvn --args "a list of maven commands and options"
+    $ boot mvn --args "a list of maven commands and options"
     
 e.g.
 
