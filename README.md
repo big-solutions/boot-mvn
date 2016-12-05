@@ -15,9 +15,9 @@ Run the `boot-mvn` task:
     
 e.g.
 
-    $ boot boot-mvn --args "clean compile install"
-    $ boot boot-mvn --args "-V"
-    $ boot boot-mvn --args "-f ./other/pom.xml jetty:run""
+    $ boot mvn --args "clean compile install"
+    $ boot mvn --args "-V"
+    $ boot mvn --args "-f ./other/pom.xml jetty:run""
 
 ## License
 

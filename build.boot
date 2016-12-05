@@ -17,12 +17,13 @@
       :scm         {:url "https://github.com/yourname/boot-mvn"}
       :license     {"Eclipse Public License"
                     "http://www.eclipse.org/legal/epl-v10.html"}}
- push {:repo           "deploy"
-       :ensure-branch  "master"
-       :ensure-clean   true
+ push {:ensure-branch  "master"
        :ensure-release true
+       :ensure-clean   true
        :gpg-sign       false
-       :repo-map       {:url "https://clojars.org/repo/"}})
+       :repo-map       {:url "https://clojars.org/repo/"
+                        :username (System/getProperty "CLOJARS_USER")
+                        :password (System/getProperty "CLOJARS_PASS")}})
 
 (deftask build
   "Build and install the project locally."
