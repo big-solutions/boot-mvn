@@ -14,13 +14,17 @@ and then require the task:
 
 Run the `boot-mvn` task:
 
-    $ boot mvn --args "a list of maven commands and options"
+    Options:
+      -h, --help             Print this help info.
+      -A, --args ARGS        ARGS sets maven commands and options.
+      -V, --version VERSION  VERSION sets maven version.
     
 e.g.
 
     $ boot mvn --args "clean compile install"
     $ boot mvn --args "-V"
-    $ boot mvn --args "-f ./other/pom.xml jetty:run""
+    $ boot mvn --args "-f ./other/pom.xml jetty:run"
+    $ boot mvn --version 3.2.1 --args "compile install"
 
 ## License
 
