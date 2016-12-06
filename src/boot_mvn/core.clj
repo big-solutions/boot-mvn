@@ -13,7 +13,6 @@
                                      conj `[org.apache.maven/maven-embedder ~maven-version]))]
     (pod/with-eval-in pod
                       (require '[boot.core :as boot])
-                      (import org.apache.maven.cli.MavenCli)
                       (.doMain (new org.apache.maven.cli.MavenCli)
                                (.split ^String ~args "\\s+")"." System/out System/err)))
   identity)
