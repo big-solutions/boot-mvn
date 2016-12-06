@@ -2,6 +2,6 @@
 pom.xml
 project.clj
 /.lein-*
-/.nrepl-port
+/.nrepl-*
 *.iml
 .idea
