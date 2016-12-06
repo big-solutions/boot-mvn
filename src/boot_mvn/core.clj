@@ -1,6 +1,6 @@
 (ns boot-mvn.core
   {:boot/export-tasks true}
-  (:require [boot.core :as boot :refer [deftask]]
+  (:require [boot.core :as boot :refer [deftask *boot-version*]]
             [boot.pod :as pod]))
 
 (deftask mvn
@@ -10,7 +10,8 @@
   (let [maven-version (or version "3.1.1")
         pod (pod/make-pod (update-in (boot/get-env)
                                      [:dependencies]
-                                     conj `[org.apache.maven/maven-embedder ~maven-version]))]
+                                     conj ['boot/core *boot-version* :scope "test"]
+                                          ['org.apache.maven/maven-embedder maven-version :scope "test"]))]
     (pod/with-eval-in pod
                       (require '[boot.core :as boot])
                       (.doMain (new org.apache.maven.cli.MavenCli)
