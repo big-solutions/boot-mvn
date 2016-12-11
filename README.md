@@ -18,13 +18,16 @@ Run the `boot-mvn` task:
       -h, --help             Print this help info.
       -A, --args ARGS        ARGS sets maven commands and options.
       -V, --version VERSION  VERSION sets maven version.
+      -F, --file FILE        FILE sets file name (default is pom.xml).
     
 e.g.
 
     $ boot mvn --args "clean compile install"
-    $ boot mvn --args "-V"
-    $ boot mvn --args "-f ./other/pom.xml jetty:run"
+    $ boot mvn --args -V
+    $ boot mvn --args jetty:run
     $ boot mvn --version 3.2.1 --args "compile install"
+    
+All examples assume that there is a pom.xml (or a differently named file as per `--file` parameter) available in the task fileset.
 
 ## License
 
