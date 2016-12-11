@@ -6,8 +6,7 @@
 (defn maven-pod* [version]
   (pod/make-pod (update-in (boot/get-env)
                            [:dependencies]
-                           conj ['boot/core *boot-version* :scope "test"]
-                           ['org.apache.maven/maven-embedder version :scope "test"])))
+                           conj ['org.apache.maven/maven-embedder version :scope "test"])))
 
 (def maven-pod
   (memoize maven-pod*))
@@ -19,7 +18,6 @@
    V version VERSION str "Maven version"]
   (let [pod (maven-pod (or version "3.1.1"))]
     (pod/with-eval-in pod
-                      (require '[boot.core :as boot])
                       (.doMain (new org.apache.maven.cli.MavenCli)
                                (.split ^String ~args "\\s+")"." System/out System/err)))
   identity)
