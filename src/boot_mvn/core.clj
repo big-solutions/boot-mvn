@@ -5,9 +5,7 @@
             [clojure.java.io :as io]))
 
 (defn maven-pod* [version]
-  (pod/make-pod (update-in (boot/get-env)
-                           [:dependencies]
-                           conj ['org.apache.maven/maven-embedder version :scope "test"])))
+  (pod/make-pod {:dependencies [['org.apache.maven/maven-embedder version :scope "test"]]}))
 
 (def maven-pod
   (memoize maven-pod*))
