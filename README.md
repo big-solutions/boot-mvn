@@ -10,9 +10,9 @@ To use this in your project:
 
 and then require the task:
 
-    (require '[boot-mvn.core :refer [boot-mvn]])
+    (require '[boot-mvn.core :refer [mvn]])
 
-Run the `boot-mvn` task:
+Run the `mvn` task:
 
     Options:
       -h, --help             Print this help info.
