@@ -65,7 +65,7 @@
 
   [A args ARGS str "Maven commands and options"
    V version VERSION str "Maven version"
-   F file FILE str "File name (default is pom.xml)"
+   F file FILE str "Pom file path (default is pom.xml)."
    W working-dir PATH str "The working dir, in this case the output won't be on the fileset"]
 
   (let [tmp ^File (when-not working-dir (boot/tmp-dir!))
@@ -76,34 +76,37 @@
         (when-not working-dir (boot/empty-dir! tmp))
 
         (let [working-dir (or working-dir (.getCanonicalPath tmp))]
-          (if-let [pom (->> fileset
-                            boot/input-files
-                            (boot/by-path [pom-name])
-                            first)]
-            (let [pom-content (-> pom boot/tmp-file slurp)]
-              (when-not working-dir
-                (util/warn "%s content\n%s\n" pom-name pom-content)
-                (spit (io/file working-dir "pom.xml") pom-content))
+          (let [pom-path-file (if-not working-dir
+                                (some->> fileset
+                                         boot/input-files
+                                         (boot/by-path [pom-name])
+                                         first
+                                         boot/tmp-file)
+                                (io/file pom-name))]
+            (if (and pom-path-file (.exists pom-path-file) (.isFile pom-path-file))
+              (let [pom-content (slurp pom-path-file)]
+                (when-not working-dir
+                  (spit (io/file working-dir "pom.xml") pom-content))
 
-              (pod/with-eval-in @pod-future
-                (require '[boot.util :as util])
-                (require '[boot.pod :as pod])
-                (import [org.apache.maven.cli MavenCli])
-                (import [java.lang System])
-                ;; Necessary or an exception will be thrown
-                (System/setProperty "maven.multiModuleProjectDirectory" ~working-dir)
+                (pod/with-eval-in @pod-future
+                  (require '[boot.util :as util])
+                  (require '[boot.pod :as pod])
+                  (import [org.apache.maven.cli MavenCli])
+                  (import [java.lang System])
+                  ;; Necessary or an exception will be thrown
+                  (System/setProperty "maven.multiModuleProjectDirectory" ~working-dir)
 
-                (util/dbug* "PWD %s\n" (System/getenv "PWD"))
-                (util/dbug* "M2_HOME %s\n" (System/getenv "M2_HOME"))
-                (util/dbug* "maven.repo.local %s\n" (System/getProperty "maven.repo.local"))
-                (util/dbug* "user.home %s\n" (System/getProperty "user.home"))
-                (util/dbug* "maven.multiModuleProjectDirectory %s\n" (System/getProperty "maven.multiModuleProjectDirectory"))
-                (util/dbug* "working-dir %s\n" ~working-dir)
+                  (util/dbug* "PWD %s\n" (System/getenv "PWD"))
+                  (util/dbug* "M2_HOME %s\n" (System/getenv "M2_HOME"))
+                  (util/dbug* "maven.repo.local %s\n" (System/getProperty "maven.repo.local"))
+                  (util/dbug* "user.home %s\n" (System/getProperty "user.home"))
+                  (util/dbug* "maven.multiModuleProjectDirectory %s\n" (System/getProperty "maven.multiModuleProjectDirectory"))
+                  (util/dbug* "working-dir %s\n" ~working-dir)
 
-                (let [arg-split (.split ^String ~args "\\s+")]
-                  (util/dbug* "MavenCli args %s\n" (util/pp-str arg-split))
-                  (.doMain (MavenCli.) arg-split ~working-dir System/out System/err))))
-            (util/warn "The %s file cannot be found, be sure the file exists and it is on the classpath (double-check your set-env!). Ignoring the Maven build..." pom-name))
+                  (let [arg-split (.split ^String ~args "\\s+")]
+                    (util/dbug* "MavenCli args %s\n" (util/pp-str arg-split))
+                    (.doMain (MavenCli.) arg-split ~working-dir System/out System/err))))
+              (util/warn "The %s file cannot be found, be sure the file exists and it is on the classpath (double-check your set-env!). Ignoring the Maven build...\n" pom-name)))
           (next-handler (if-not working-dir
                           (-> fileset
                               (boot/add-resource tmp)
