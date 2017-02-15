@@ -1,9 +1,8 @@
 (def project 'big-solutions/boot-mvn)
-(def version "0.1.5")
+(def version "0.1.6")
 
 (set-env! :source-paths #{"src"}
           :dependencies   '[[org.clojure/clojure "1.7.0"]
-
                             [boot/core "2.6.0" :scope "test"]])
 
 (task-options!
